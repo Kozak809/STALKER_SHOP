@@ -54,3 +54,5 @@ h1,h2,h3,h4,h5,p{color:rgba(0,0,0,.8);font-family:Eina}
 .darkHover:hover{background-color:#C5E0DC}
 .hoverBlack{background: rgb(255,128,0);background: linear-gradient(90deg, rgba(255,120,0,1) 0%, rgba(255,128,0,1) 100%);transition:all .5s;font-size:14px;font-weight:700;padding:16px 48px;border:2px solid #000;width:100%;background-color:#F0750E;color:#000;}
 .hoverBlack:hover	{color:#fff;border:2px solid #fff;transition:all .5s;}
+
+.otzivdiv{width:345px;position:relative}
