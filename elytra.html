@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html style="cursor: url(images/cursor.gif), default">
+<head>
+<meta name="viewport" content="width=device-width">
+<meta charset="utf-8">
+<title>STALKERS SHOP</title>
+<meta name="title" content="STALKERS SHOP - The #1 6g6s Shop">
+<meta name="description" content="STALKERS SHOP has been the #1 shop on 6g6s.org Buy the highest quality kits and items on 6g6s.org for the cheapest prices!">
+<meta property="og:type" content="website">
+<meta property="og:title" content="STALKERS SHOP - The #1 6g6s Shop">
+<meta property="og:description" content="STALKERS SHOP has been the #1 shop on 6g6s.org Buy the highest quality kits and items on 6g6s.org for the cheapest prices!">
+<meta property="og:image" content="images/bariga.jpg">
+<meta property="twitter:card" content="summary_large_image"><meta property="twitter:title" content="STALKERS SHOP - The #1 6g6s Shop">
+<meta name="next-head-count" content="13">
+
+<link rel="icon" href="./images/favicon.ico">
+<link rel="stylesheet" href="css/posible_style.css" />
+
+</head>
+<body style="cursor: url(images/cursor.gif), pointer">
+<div id="__next" style="background-image:URL(images/fon.jpg);">
+	<!-- Корзина -->
+	<div style="position:fixed;top:50px;right:50px;z-index:1">
+		<div style="width:50px;height:50px">
+			<a aria-label="Cart" href="/cart">
+				<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" style="margin:10px" height="28px" width="28px" xmlns="http://www.w3.org/2000/svg">
+					<path d="M528.12 301.319l47.273-208C578.806 78.301 567.391 64 551.99 64H159.208l-9.166-44.81C147.758 8.021 137.93 0 126.529 0H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24h69.883l70.248 343.435C147.325 417.1 136 435.222 136 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-15.674-6.447-29.835-16.824-40h209.647C430.447 426.165 424 440.326 424 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-22.172-12.888-41.332-31.579-50.405l5.517-24.276c3.413-15.018-8.002-29.319-23.403-29.319H218.117l-6.545-32h293.145c11.206 0 20.92-7.754 23.403-18.681z">
+					</path>
+				</svg>
+			</a>
+		</div>
+	</div>
+	<!-- меню -->
+	<nav>
+		<div style="display:flex;justify-content:center">
+			<div style="display:block;margin:50px auto;text-align:center;justify-content:center">
+				<div style="display:flex;justify-content:center;max-width:50vw;margin:0 auto">
+					<a aria-label="Home" href="#">
+						<img src="images/logo.png" alt="logo" width="800">
+					</a>
+				</div><hr>
+				<div style="place-content:center;display:flex;flex-wrap:wrap;padding-top:16px">
+					<a aria-label="Home" href="index.html">
+						<p class="menubotton">Home</p>
+					</a><a aria-label="All categories" href="categories.html">
+						<p class="menubotton active">Categories</p>
+					</a><a aria-label="Reviews" href="reviews.html">
+						<p class="menubotton">Reviews</p>
+					</a><a aria-label="discord" href="https://discord.gg/6g6s-org-793077035810816031">
+						<p class="menubotton">Our Discord</p>
+					</a><a aria-label="6g6s.Group" target="_blank" href="https://discord.gg/6g6s-org-793077035810816031">
+						<p class="menubotton">6g6s Group</p>
+					</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div style="display:flex;justify-content:center;padding-left:16px;padding-right:16px;padding-bottom:32px">
+		<main style="width:100%;max-width:1440px">
+			<div style="display:flex;padding-top:48px;flex-wrap:wrap; background-color:red;">
+				<div class="cate">
+					<img loading="lazy" src="images/elytra.png">
+				</div>
+				<div class="cate2">
+					<h1 style="font-weight:300;font-size:48px;font-family:Eina Light">Elytra</h1>
+					<h2 style="color:#3264b1;font-size:24px;padding-top:32px;padding-bottom:32px">4.99₽</h2>
+					<p style="margin-bottom:24px">A spectacular addition to your inventory, these Fireworks will light up the night and bring joy to your adventures.</p>
+					<div style="margin-bottom:24px">
+						<div style="display:flex;align-items:center">
+							<div style="padding-left:8px;padding-right:8px;font-size:12px">Quantity</div>
+							<button class="pm" onclick="decrease()">-</button>
+							<p id="test" contenteditable="true" style="font-size:12px;line-height:16px;width:32px;height:32px;text-align:center;margin:0px;padding-top:8px">1</p>
+							<button class="pm" onclick="increase()">+</button>
+						</div>
+					</div>
+					<button class="hoverBlack"><div>Add to Cart</div></button>
+				</div>
+			</div>
+		</main>
+	</div>
+	<script>
+function increase() {
+  const value = document.getElementById("test").textContent;
+  const new_value = parseInt(value) + 1;
+  document.getElementById("test").textContent = new_value;
+}
+
+function decrease() {
+  const value = document.getElementById("test").textContent;
+  const new_value = parseInt(value) - 1;
+  if (new_value < 1) {
+    new_value = 1;
+  }
+  document.getElementById("test").textContent = new_value;
+}
+</script>
+</body>
+</html>
