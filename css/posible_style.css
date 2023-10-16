@@ -55,3 +55,7 @@ h1,h2,h3,h4,h5,p{color:rgba(0,0,0,.8);font-family:Eina}
 .otzdivgl{display:grid;grid-template-columns:345px 345px 345px;gap:15px;justify-content:center}
 @media only screen and (max-width:480px){.otzdivgl{display:block;} .otzivdiv{width:90vw;}}
 
+.pm{font-size:14px;line-height:20px;width:32px;height:32px;text-align:center;padding-bottom:2px;border-width:1px;cursor:pointer}
+.cate{width:50%;min-width:400px;height:480px;display:grid;place-content:center;padding:0 10px;}
+.cate2{padding:48px;width:50%;min-width:400px}
+@media only screen and (max-width:850px){.cate{width:0%;min-width:90vw;height:auto;}.cate2{padding:10px;min-width:90vw;}}
