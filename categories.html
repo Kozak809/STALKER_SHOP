@@ -12,24 +12,161 @@
 <meta property="og:image" content="images/bariga.jpg">
 <meta property="twitter:card" content="summary_large_image"><meta property="twitter:title" content="STALKERS SHOP - The #1 6g6s Shop">
 <meta name="next-head-count" content="13">
-
+<script>
+window.stalkerTips = [
+	"Ну проветришься, заходи",
+	"Ты бы еще консервных банок насобирал",
+	"Короче, Меченый, я тебя спас и в благородство играть не буду",
+	"Иди своей дорогой сталкер",
+	"А нууу чики брики и в дамки",
+	"Обходи эту шелупонь",
+	"Да Да?",
+	"Ну! чтоб руки не дрожали!",
+	"Как говорится, добро пожаловать на борт нашего болотного ледокола",
+	"Ну показывай чем зона наградила",
+	"Ай, молодец!, ай обманул Ашота! Будет Ашот с тобой теперь внимательнее",
+	"ША! КИПИШ ПОШЕЛ!",
+	"Благодарим Тебя за то, что раскрыл слугам Твоим козни врагов наших! \n Озари сиянием Твоим души тех, кто отдал жизнь во исполнение воли Твоей! \n В бой, защитники Монолита! В бой! \n Отомстим за павших братьев наших, да будет благословенно вечное их единение с Монолитом! \n Смерть… лютая смерть тем, кто отвергает Его священную силу!..",
+	"Не учатся ничему некоторые и учиться не хотят",
+	"ЗА МОНОЛИТ!",
+	"Держите меня семеро!",
+	"А колбасу и батоны нынче хреновыми делать стали",
+	"Сталкер, моя информация может быть полезной для тебя"
+];
+window.currentTip = window.stalkerTips[Math.floor(Math.random() * window.stalkerTips.length)];
+</script>
 <link rel="icon" href="./images/favicon.ico">
 <link rel="stylesheet" href="css/posible_style.css" />
+<script src="js/cursor.js"></script>
+<script src="js/cart.js"></script>
+
+<style>
+#loading-screen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+	transition: opacity 0.5s ease-out;
+}
+
+#loading-screen.fade-out {
+	opacity: 0;
+	pointer-events: none;
+}
+
+.stalker-loader {
+	position: relative;
+	width: 120px;
+	height: 120px;
+	margin-bottom: 40px;
+}
+
+.stalker-loader::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 80px;
+	height: 80px;
+	margin: -40px 0 0 -40px;
+	border: 4px solid transparent;
+	border-top-color: #ff8800;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+.stalker-loader::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 60px;
+	height: 60px;
+	margin: -30px 0 0 -30px;
+	border: 4px solid transparent;
+	border-bottom-color: #ffaa00;
+	border-radius: 50%;
+	animation: spin 0.7s linear infinite reverse;
+}
+
+.stalker-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 48px;
+	color: #ff8800;
+	animation: pulse 2s ease-in-out infinite;
+}
+
+.loading-tip {
+	max-width: 600px;
+	padding: 20px 40px;
+	text-align: center;
+	color: #ffaa00;
+	font-size: 18px;
+	font-family: 'Courier New', monospace;
+	text-shadow: 0 0 10px rgba(255, 136, 0, 0.5);
+	line-height: 1.6;
+	border: 2px solid #ff8800;
+	background: rgba(0, 0, 0, 0.7);
+	box-shadow: 0 0 20px rgba(255, 136, 0, 0.3);
+}
+
+.loading-tip-label {
+	color: #fff;
+	font-size: 14px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	margin-bottom: 10px;
+	opacity: 0.8;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+	0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+	50% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+}
+</style>
 
 </head>
 <body>
+<!-- Loading Screen -->
+<div id="loading-screen">
+	<div class="stalker-loader">
+		<div class="stalker-icon">☢</div>
+	</div>
+	<div class="loading-tip">
+		<div class="loading-tip-label">Совет от сталкера</div>
+		<div id="loading-tip-text"></div>
+	</div>
+</div>
+<script>
+	document.getElementById('loading-tip-text').textContent = window.currentTip;
+</script>
+
     <div id="cursor"></div>
-    <script src="cur.js"></script>
 <div id="__next" style="background-image:URL(images/fon.jpg);">
 	<!-- Корзина -->
 	<div style="position:fixed;top:50px;right:50px;z-index:1">
-		<div style="width:50px;height:50px">
-			<a aria-label="Cart" href="/cart">
-				<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 576 512" style="margin:10px" height="28px" width="28px" xmlns="http://www.w3.org/2000/svg">
-					<path d="M528.12 301.319l47.273-208C578.806 78.301 567.391 64 551.99 64H159.208l-9.166-44.81C147.758 8.021 137.93 0 126.529 0H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24h69.883l70.248 343.435C147.325 417.1 136 435.222 136 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-15.674-6.447-29.835-16.824-40h209.647C430.447 426.165 424 440.326 424 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-22.172-12.888-41.332-31.579-50.405l5.517-24.276c3.413-15.018-8.002-29.319-23.403-29.319H218.117l-6.545-32h293.145c11.206 0 20.92-7.754 23.403-18.681z">
-					</path>
+		<div style="width:50px;height:50px;position:relative">
+			<a aria-label="Cart" href="/cart.html">
+				<svg stroke="white" fill="currentColor" stroke-width="10" viewBox="0 0 576 512" style="margin:10px" height="28px" width="28px" xmlns="http://www.w3.org/2000/svg">
+					<path d="M528.12 301.319l47.273-208C578.806 78.301 567.391 64 551.99 64H159.208l-9.166-44.81C147.758 8.021 137.93 0 126.529 0H24C10.745 0 0 10.745 0 24v16c0 13.255 10.745 24 24 24h69.883l70.248 343.435C147.325 417.1 136 435.222 136 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-15.674-6.447-29.835-16.824-40h209.647C430.447 426.165 424 440.326 424 456c0 30.928 25.072 56 56 56s56-25.072 56-56c0-22.172-12.888-41.332-31.579-50.405l5.517-24.276c3.413-15.018-8.002-29.319-23.403-29.319H218.117l-6.545-32h293.145c11.206 0 20.92-7.754 23.403-18.681z"></path>
 				</svg>
 			</a>
+			<div data-cart-count style="position:absolute;top:-5px;right:5px;background:red;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;display:none">0</div>
 		</div>
 	</div>
 	<!-- меню -->
@@ -37,7 +174,7 @@
 		<div style="display:flex;justify-content:center">
 			<div style="display:block;margin:50px auto;text-align:center;justify-content:center">
 				<div style="display:flex;justify-content:center;max-width:50vw;margin:0 auto">
-					<a aria-label="Home" href="#">
+					<a aria-label="Home" href="index.html">
 						<img src="images/logo.png" alt="logo" width="800">
 					</a>
 				</div><hr>
@@ -60,242 +197,155 @@
 	<!-- Основная часть -->
 	<div style="display:flex;justify-content:center;padding-left:16px;padding-right:16px;padding-bottom:32px">
 		<main style="width:100%;max-width:1440px">
-			<div>	
-				<div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center"> 
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Elytra" href="/category/Elytra">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/elytra.png" alt="Elytra" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Elytra</p>
-								<p style="color:#374151;font-size:12px">12 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Morphine Kit Vol.3" href="/category/Morphine Kit Vol.3">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/kit1.png" alt="Morphine Kit Vol.3" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Morphine Kit</p>
-								<p style="color:#374151;font-size:12px">12 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="PVP Kit for io1n" href="/category/PVP Kit for io1n">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/kit2.png" alt="PVP Kit for io1n" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">PVP Kit for io1n</p>
-								<p style="color:#374151;font-size:12px">5 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Golden Apple" href="/category/Golden_Apple">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/goldapel.png" alt="Golden Apple" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Golden Apple</p>
-								<p style="color:#374151;font-size:12px">18 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-							<a aria-label="Enderchest Kit" href="/category/Enderchest_Kit">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/endc.png" alt="Travel Kits" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Enderchest Kit</p>
-								<p style="color:#374151;font-size:12px">6 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="PVP Kits" href="/category/PVP%20Kits">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="PVP Kits" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">PVP Kits</p>
-								<p style="color:#374151;font-size:12px">3 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Block Kits" href="/category/Block%20Kits">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Block Kits" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Block Kits</p>
-								<p style="color:#374151;font-size:12px">10 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Redstone" href="/category/Redstone">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Redstone" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Redstone</p>
-								<p style="color:#374151;font-size:12px">7 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Terracotta" href="/category/Terracotta">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Terracotta" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:15em;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Terracotta</p>
-								<p style="color:#374151;font-size:12px">15 items</p>
-							</div>
-						</a>
-					</div>
-<!-- 					<div class="darkHover" style="padding:12px">
-						<a aria-label="Glass" href="/category/Glass">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Glass" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Glass</p>
-								<p style="color:#374151;font-size:12px">15 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Wool" href="/category/Wool">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Wool" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Wool</p>
-								<p style="color:#374151;font-size:12px">15 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Wood" href="/category/Wood">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Wood" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Wood</p>
-								<p style="color:#374151;font-size:12px">6 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Mineral Blocks" href="/category/Mineral%20Blocks">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Mineral Blocks" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Mineral Blocks</p>
-								<p style="color:#374151;font-size:12px">6 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Ores" href="/category/Ores">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Ores" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Ores</p>
-								<p style="color:#374151;font-size:12px">5 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Bricks" href="/category/Bricks">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Bricks" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Bricks</p>
-								<p style="color:#374151;font-size:12px">5 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Overworld" href="/category/Overworld">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Overworld" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Overworld</p><p style="color:#374151;font-size:12px">17 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Sea" href="/category/Sea">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Sea" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Sea</p>
-								<p style="color:#374151;font-size:12px">3 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Nether" href="/category/Nether">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Nether" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Nether</p>
-								<p style="color:#374151;font-size:12px">6 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="The End" href="/category/The%20End">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="The End" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">The End</p>
-								<p style="color:#374151;font-size:12px">6 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Rares" href="/category/Rares">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Rares" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Rares</p>
-								<p style="color:#374151;font-size:12px">4 items</p>
-							</div>
-						</a>
-					</div>
-					<div class="darkHover" style="padding:12px">
-						<a aria-label="Misc. Blocks" href="/category/Misc.%20Blocks">
-							<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px">
-								<img loading="lazy" src="images/test2.png" alt="Misc. Blocks" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">
-							</div>
-							<div style="margin-bottom:32px">
-								<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">Misc. Blocks</p>
-								<p style="color:#374151;font-size:12px">4 items</p>
-							</div>
-						</a>
-					</div> -->
-				</div>
-			</main>
-		</div>		
+			<div id="categories-container"></div>
+		</main>
 	</div>
+<style>
+.category-products {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 16px;
+	margin-bottom: 60px;
+}
+
+@media (max-width: 1200px) {
+	.category-products {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 768px) {
+	.category-products {
+		grid-template-columns: 1fr;
+	}
+}
+</style>
+<script>
+async function fetchKits() {
+	const res = await fetch('/api/kits');
+
+	if (!res.ok) throw new Error('HTTP ' + res.status);
+	const items = await res.json();
+	if (!Array.isArray(items)) throw new Error('Invalid JSON');
+	return items;
+}
+
+function goToProduct(productId) {
+	window.location.href = `/product.html?id=${productId}`;
+}
+
+function renderCategories(items) {
+	var container = document.getElementById('categories-container');
+	if (!container) return;
+	
+	// Добавляем ID если нет
+	var itemsWithIds = items.map(function(item, index) {
+		return Object.assign({}, item, {
+			id: item.id || index
+		});
+	});
+	
+	// Группируем товары по категориям
+	var categoryMap = {};
+	itemsWithIds.forEach(function(item) {
+		var cat = item.category || 'Other';
+		if (!categoryMap[cat]) {
+			categoryMap[cat] = [];
+		}
+		categoryMap[cat].push(item);
+	});
+	
+	var categories = Object.keys(categoryMap);
+	if (categories.length === 0) {
+		container.innerHTML = '<p style="color:#fff">No categories found</p>';
+		return;
+	}
+	
+	// Для каждой категории выводим заголовок и все товары
+	container.innerHTML = categories.map(function(catName) {
+		var catItems = categoryMap[catName];
+		
+		// Заголовок категории
+		var categoryHeader = '<h2 style="font-size:36px;font-weight:600;font-family:Eina SemiBold;color:#fff;margin-top:40px;margin-bottom:24px">' + catName + '</h2>';
+		
+		// Все товары из категории
+		var productsHtml = catItems.map(function(item) {
+			var imgSrc = (item.photo && typeof item.photo === 'string') ? item.photo : 'images/test2.png';
+			var name = item.name || 'Item';
+			var price = (item.price != null ? item.price : '');
+			var quantity = item.quantity + ' left' || 'Sold out';
+			
+			return (
+				'<div class="darkHover" style="padding:12px" onclick="goToProduct(' + item.id + ')" style="cursor:pointer;">' +
+					'<div style="display:flex;flex-direction:column;height:100%;">' +
+						'<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:224px;padding:32px;flex-grow:1">' +
+							'<img loading="lazy" src="' + imgSrc + '" alt="' + name + '" style="box-shadow:0 2px 7px rgb(0 0 0 / 100%);border-radius:5px;width:75%;max-width:400px">' +
+						'</div>' +
+						'<div style="margin-bottom:32px">' +
+							'<p style="font-size:28px;font-weight:600;font-family:Eina SemiBold">' + name + '</p>' +
+							'<p style="font-size:24px;font-weight:600;font-family:Eina SemiBold;margin-bottom:4px;color:#374151">' + quantity + '</p>' +
+							'<p class="price">' + price + '₽</p>' +
+						'</div>' +
+					'</div>' +
+				'</div>'
+			);
+		}).join('');
+		
+		return categoryHeader + '<div class="category-products">' + productsHtml + '</div>';
+	}).join('');
+}
+
+var loadingScreenHidden = false;
+
+function hideLoadingScreen() {
+	if (loadingScreenHidden) return;
+	loadingScreenHidden = true;
+	
+	var loadingScreen = document.getElementById('loading-screen');
+	if (loadingScreen) {
+		loadingScreen.classList.add('fade-out');
+		setTimeout(function() {
+			loadingScreen.style.display = 'none';
+		}, 500);
+	}
+}
+
+var maxLoadingTime = setTimeout(function() {
+	console.warn('Loading screen timeout - forcing hide');
+	hideLoadingScreen();
+}, 30000);
+
+window.addEventListener('beforeunload', function() {
+	clearTimeout(maxLoadingTime);
+});
+
+async function loadCategories() {
+	try {
+		const items = await fetchKits();
+		renderCategories(items);
+		
+		clearTimeout(maxLoadingTime);
+		hideLoadingScreen();
+	} catch (e) {
+		console.error('Failed to load categories', e);
+		var cont = document.getElementById('categories-container');
+		if (cont) cont.innerHTML = '<p style="color:#fff">Failed to load categories</p>';
+		
+		clearTimeout(maxLoadingTime);
+		hideLoadingScreen();
+	}
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+	updateCartBadge();
+	loadCategories();
+});
+
+if (document.readyState !== 'loading') {
+	updateCartBadge();
+	loadCategories();
+}
+</script>
 </div>
 </body>
 </html>

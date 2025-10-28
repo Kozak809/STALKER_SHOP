@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>  
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f9fafb;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-green {
+            background-color: #059669;
+            color: white;
+        }
+
+        .btn-green:hover {
+            background-color: #047857;
+        }
+
+        .btn-blue {
+            background-color: #2563eb;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-blue:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-red {
+            background-color: #dc2626;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-red:hover {
+            background-color: #b91c1c;
+        }
+
+        .btn-gray {
+            background-color: #d1d5db;
+            color: #1f2937;
+            flex: 1;
+        }
+
+        .btn-gray:hover {
+            background-color: #9ca3af;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 160px;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-image-placeholder {
+            color: #9ca3af;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-info {
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        .product-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .type-on_sale {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .type-best_offer {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .type-trending_now {
+            background-color: #fed7aa;
+            color: #9a3412;
+        }
+
+        .type-none {
+            background-color: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 50;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+            max-width: 42rem;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0;
+        }
+
+        .close-btn:hover {
+            color: #374151;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .image-preview {
+            margin-top: 0.5rem;
+            width: 100%;
+            height: 96px;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .type-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .type-btn {
+            width: 100%;
+            text-align: left;
+            padding: 0.5rem 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.5rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .type-btn:hover {
+            border-color: #9ca3af;
+        }
+
+        .type-btn.active {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+        }
+
+        .cords-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .cord-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f3f4f6;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .cord-text {
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+
+        .cord-delete {
+            background: none;
+            border: none;
+            color: #dc2626;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .cord-delete:hover {
+            color: #b91c1c;
+        }
+
+        .cord-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .cord-input-group input {
+            flex: 1;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.5rem;
+            color: #4b5563;
+        }
+
+        .btn:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .category-input-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+
+        .category-input-wrapper input {
+            flex: 1;
+        }
+
+        .category-input-wrapper button {
+            padding: 0.5rem 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Admin Panel</h1>
+            <button class="btn btn-green" onclick="handleNew()">
+                <span>+</span> Добавить товар
+            </button>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">Загрузка...</div>
+        <div id="products" class="products-grid"></div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Добавить новый товар</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Название товара</label>
+                <input type="text" id="input-name" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Цена (₽)</label>
+                <input type="number" id="input-price" class="form-input" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Загрузить изображение</label>
+                <input type="file" id="input-photo" class="form-input" accept="image/*" onchange="handleImageChange(event)">
+                <div id="image-preview" class="image-preview" style="display: none;"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Тип товара</label>
+                <div class="type-buttons">
+                    <button class="type-btn" data-type="none" onclick="selectType('none')">Обычный товар</button>
+                    <button class="type-btn" data-type="on_sale" onclick="selectType('on_sale')">На распродаже</button>
+                    <button class="type-btn" data-type="best_offer" onclick="selectType('best_offer')">Лучшее предложение</button>
+                    <button class="type-btn" data-type="trending_now" onclick="selectType('trending_now')">Тренд</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Категория товара</label>
+                <select id="input-category" class="form-input" onchange="handleCategoryChange(event)">
+                    <option value="">Other</option>
+                </select>
+            </div>
+
+            <div id="new-category-input-group" class="form-group" style="display: none;">
+                <label class="form-label">Название новой категории</label>
+                <input type="text" id="new-category-input" class="form-input" placeholder="Введите название категории">
+            </div>
+
+            <div id="cords-section" class="form-group" style="display: none;"></div>
+
+            <div class="modal-actions">
+                <button class="btn btn-green" onclick="handleSave()" id="save-btn">
+                    💾 Сохранить
+                </button>
+                <button id="delete-btn" class="btn btn-red" style="display: none;" onclick="handleDeleteFromEdit()">Удалить товар</button>
+                <button class="btn btn-gray" onclick="closeModal()">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cords-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="cords-modal-title">Координаты товара</h2>
+                <button class="close-btn" onclick="closeCordsModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Координаты (x y z)</label>
+                <div id="cords-list" class="cords-list"></div>
+                <div class="cord-input-group">
+                    <input type="text" id="new-cord" class="form-input" placeholder="например: 500 -4 -300">
+                    <button class="btn btn-blue" onclick="addCord()">Добавить</button>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-green" onclick="saveCords()" id="cords-save-btn">💾 Сохранить координаты</button>
+                <button class="btn btn-gray" onclick="closeCordsModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://cwrmvjekoemlfkvmonff.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3cm12amVrb2VtbGZrdm1vbmZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1ODkwNzQsImV4cCI6MjA3NjE2NTA3NH0.T0AV8ZH1CNkPTsHUfKGMH1qVrVhDBkbNUnUO9aRR_Uk';
+
+        let products = [];
+        let categories = [];
+        let editingId = null;
+        let formData = { name: '', price: '', photo: '', type: 'none', category: '' };
+        let cords = [];
+        let cordsEditingProductId = null;
+
+        async function supabaseRequest(method, table, options = {}) {
+            let url = `${SUPABASE_URL}/rest/v1/${table}`;
+            
+            const config = {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'apikey': SUPABASE_KEY,
+                    'Prefer': 'return=representation'
+                }
+            };
+
+            if (method !== 'GET' && options.data) {
+                config.body = JSON.stringify(options.data);
+            }
+
+            if (options.query) {
+                const params = new URLSearchParams(options.query);
+                url = `${url}?${params}`;
+            }
+
+            const response = await fetch(url, config);
+            const rawText = await response.text();
+            let parsed;
+            try {
+                parsed = rawText ? JSON.parse(rawText) : null;
+            } catch (e) {
+                parsed = rawText;
+            }
+
+            if (!response.ok) {
+                console.error('Supabase error', { url, method, options, status: response.status, body: parsed });
+                throw new Error(parsed && parsed.message ? parsed.message : `HTTP error ${response.status}`);
+            }
+
+            return parsed;
+        }
+
+        async function loadProducts() {
+            try {
+                showLoading(true);
+                const data = await supabaseRequest('GET', 'products');
+                
+                const productsWithCords = await Promise.all(
+                    data.map(async (product) => {
+                        const cordsData = await supabaseRequest('GET', 'coordinates', {
+                            query: { product_id: `eq.${product.id}` }
+                        });
+                        return { ...product, cordsData };
+                    })
+                );
+                
+                products = productsWithCords;
+                renderProducts();
+                await loadCategoriesAndRenderSelect();
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                alert('Ошибка при загрузке данных');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function loadCategoriesAndRenderSelect() {
+            try {
+                const allProductsCategories = await supabaseRequest('GET', 'products', {
+                    query: 'select=category'
+                });
+
+                const uniqueCategories = [...new Set(allProductsCategories.map(p => p.category).filter(Boolean))];
+                categories = uniqueCategories.sort();
+
+                const categorySelect = document.getElementById('input-category');
+                categorySelect.innerHTML = '';
+
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Other';
+                categorySelect.appendChild(defaultOption);
+
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    categorySelect.appendChild(option);
+                });
+
+                // Добавляем опцию для новой категории
+                const newCategoryOption = document.createElement('option');
+                newCategoryOption.value = 'new_category';
+                newCategoryOption.textContent = '+ Новая категория';
+                categorySelect.appendChild(newCategoryOption);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ошибка загрузки категорий');
+            }
+        }
+
+        function handleCategoryChange(event) {
+            const selectedValue = event.target.value;
+            const newCategoryInputGroup = document.getElementById('new-category-input-group');
+            const newCategoryInput = document.getElementById('new-category-input');
+            
+            if (selectedValue === 'new_category') {
+                newCategoryInputGroup.style.display = 'block';
+                newCategoryInput.value = ''; 
+                newCategoryInput.focus(); 
+                formData.category = '';
+            } else {
+                newCategoryInputGroup.style.display = 'none';
+                formData.category = selectedValue;
+            }
+        }
+
+        function renderProducts() {
+            const container = document.getElementById('products');
+            
+            if (products.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280;">Нет товаров</p>';
+                return;
+            }
+
+            const typeLabels = {
+                'on_sale': 'На распродаже',
+                'best_offer': 'Лучшее предложение',
+                'trending_now': 'Тренд',
+                'none': 'Обычный товар'
+            };
+
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        ${product.photo && product.photo.startsWith('data:') 
+                            ? `<img src="${product.photo}" alt="${product.name}">`
+                            : '<div class="product-image-placeholder">Нет изображения</div>'
+                        }
+                    </div>
+                    <h3 class="product-title">${product.name}</h3>
+                    <div class="product-info">
+                        <p><strong>Цена:</strong> ${product.price} ₽</p>
+                        <p><strong>Категория:</strong> ${product.category || 'Other'}</p>
+                        <p><strong>Количество:</strong> ${product.quantity} шт.</p>
+                        <p>
+                            <strong>Тип:</strong>
+                            <span class="type-badge type-${product.type}">${typeLabels[product.type]}</span>
+                        </p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-blue" onclick="handleEdit(${product.id})">
+                            Редактировать
+                        </button>
+                        <button class="btn btn-green" onclick="openCords(${product.id})">
+                            Координаты
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleImageChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    formData.photo = reader.result;
+                    const preview = document.getElementById('image-preview');
+                    preview.innerHTML = `<img src="${reader.result}" alt="Preview">`;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleEdit(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            formData = {
+                name: product.name,
+                price: product.price,
+                photo: product.photo,
+                type: product.type,
+                category: product.category || ''
+            };
+            editingId = product.id;
+
+            document.getElementById('input-name').value = formData.name;
+            document.getElementById('input-price').value = formData.price;
+            document.getElementById('modal-title').textContent = 'Редактировать товар';
+            document.getElementById('cords-section').style.display = 'none';
+            
+            const delBtn = document.getElementById('delete-btn');
+            if (delBtn) delBtn.style.display = 'inline-flex';
+            
+            if (formData.photo && formData.photo.startsWith('data:')) {
+                const preview = document.getElementById('image-preview');
+                preview.innerHTML = `<img src="${formData.photo}" alt="Preview">`;
+                preview.style.display = 'block';
+            }
+
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === formData.type);
+            });
+
+            const categorySelect = document.getElementById('input-category');
+            categorySelect.value = formData.category;
+            document.getElementById('new-category-input-group').style.display = 'none';
+
+            renderCords();
+            
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function handleNew() {
+            formData = { name: '', price: '', photo: '', type: 'none', category: '' };
+            cords = [];
+            editingId = null;
+
+            document.getElementById('input-name').value = '';
+            document.getElementById('input-price').value = '';
+            document.getElementById('input-photo').value = '';
+            document.getElementById('image-preview').style.display = 'none';
+            document.getElementById('modal-title').textContent = 'Добавить новый товар';
+            
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === 'none');
+            });
+
+            document.getElementById('cords-section').style.display = 'none';
+            document.getElementById('new-category-input-group').style.display = 'none';
+            
+            const categorySelect = document.getElementById('input-category');
+            categorySelect.value = '';
+
+            const delBtn = document.getElementById('delete-btn');
+            if (delBtn) delBtn.style.display = 'none';
+            
+            document.getElementById('modal').classList.add('active');
+        }
+
+        async function handleSave() {
+            const name = document.getElementById('input-name').value;
+            const price = document.getElementById('input-price').value;
+            const categorySelect = document.getElementById('input-category');
+            const newCategoryInput = document.getElementById('new-category-input');
+
+            if (!name || !price) {
+                alert('Заполните название и цену');
+                return;
+            }
+
+            let category = categorySelect.value;
+            if (category === 'new_category') {
+                category = newCategoryInput.value.trim();
+                if (!category) {
+                    alert('Введите название новой категории');
+                    return;
+                }
+            }
+
+            formData.name = name;
+            formData.price = price;
+            formData.category = category;
+
+            try {
+                showLoading(true);
+                document.getElementById('save-btn').disabled = true;
+
+                const data = {
+                    name: formData.name,
+                    price: parseFloat(formData.price),
+                    photo: formData.photo,
+                    type: formData.type,
+                    category: formData.category
+                };
+
+                if (editingId) {
+                    await supabaseRequest('PATCH', `products?id=eq.${editingId}`, {
+                        data
+                    });
+                } else {
+                    await supabaseRequest('POST', 'products', {
+                        data
+                    });
+                }
+
+                await loadProducts();
+                closeModal();
+            } catch (error) {
+                console.error('Ошибка сохранения:', error);
+                alert('Ошибка при сохранении');
+            } finally {
+                showLoading(false);
+                document.getElementById('save-btn').disabled = false;
+            }
+        }
+
+        async function handleDelete(id) {
+            if (!confirm('Вы уверены?')) return;
+
+            try {
+                showLoading(true);
+                await supabaseRequest('DELETE', `products?id=eq.${id}`);
+                await loadProducts();
+            } catch (error) {
+                console.error('Ошибка удаления:', error);
+                alert('Ошибка при удалении');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function handleDeleteFromEdit() {
+            if (!editingId) return;
+            await handleDelete(editingId);
+            closeModal();
+        }
+
+        function selectType(type) {
+            if (type !== 'none') {
+                const countOfType = products.filter(p => p.type === type && p.id !== editingId).length;
+                const limits = { 'on_sale': 1, 'best_offer': 2, 'trending_now': 3 };
+                const limit = limits[type];
+
+                if (countOfType >= limit) {
+                    alert(`Максимум ${limit} товаров для этого типа`);
+                    return;
+                }
+            }
+            
+            formData.type = type;
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === type);
+            });
+        }
+
+        async function openCords(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            cordsEditingProductId = productId;
+            cords = (product.cordsData || []).map(c => ({ id: c.id, cords: c.cords }));
+            document.getElementById('cords-modal-title').textContent = `Координаты: ${product.name}`;
+            renderCords();
+            document.getElementById('cords-modal').classList.add('active');
+        }
+
+        function closeCordsModal() {
+            cordsEditingProductId = null;
+            cords = [];
+            document.getElementById('cords-modal').classList.remove('active');
+        }
+
+        async function saveCords() {
+            if (!cordsEditingProductId) return;
+            try {
+                showLoading(true);
+                document.getElementById('cords-save-btn').disabled = true;
+
+                const existing = products.find(p => p.id === cordsEditingProductId)?.cordsData || [];
+                const existingSet = new Set(existing.map(e => (e.cords || '').trim()));
+                const incomingSet = new Set(
+                    cords
+                        .map(c => (typeof c === 'string' ? c : c.cords))
+                        .filter(Boolean)
+                        .map(s => s.trim())
+                        .filter(s => s.length > 0)
+                );
+
+                for (const e of existing) {
+                    const s = (e.cords || '').trim();
+                    if (!incomingSet.has(s)) {
+                        await supabaseRequest('DELETE', `coordinates?id=eq.${e.id}`);
+                    }
+                }
+
+                const toInsert = Array.from(incomingSet)
+                    .filter(s => !existingSet.has(s))
+                    .map(s => ({ product_id: cordsEditingProductId, cords: s }));
+                if (toInsert.length > 0) {
+                    await supabaseRequest('POST', 'coordinates', { data: toInsert });
+                }
+
+                const newQuantity = Array.from(incomingSet).length;
+                await supabaseRequest('PATCH', `products?id=eq.${cordsEditingProductId}`, { data: { quantity: newQuantity } });
+
+                await loadProducts();
+                closeCordsModal();
+            } catch (e) {
+                alert(`Ошибка сохранения координат: ${e.message || e}`);
+            } finally {
+                showLoading(false);
+                document.getElementById('cords-save-btn').disabled = false;
+            }
+        }
+
+        function addCord() {
+            const input = document.getElementById('new-cord');
+            const value = input.value.trim();
+            
+            if (value) {
+                cords.push({ 
+                    id: Math.random() * 10000, 
+                    cords: value 
+                });
+                input.value = '';
+                renderCords();
+            }
+        }
+
+        function removeCord(id) {
+            if (typeof id === 'number') {
+                cords = cords.filter(c => c.id !== id);
+            } else {
+                cords = cords.filter(c => (typeof c === 'string' ? c : c.cords) !== id);
+            }
+            renderCords();
+        }
+
+        function renderCords() {
+            const container = document.getElementById('cords-list');
+            
+            if (!Array.isArray(cords) || cords.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = cords.map(cord => `
+                <div class="cord-item">
+                    <span class="cord-text">${typeof cord === 'string' ? cord : cord.cords}</span>
+                    <button class="cord-delete" onclick="removeCord(${cord.id ?? `'${(typeof cord === 'string' ? cord : cord.cords).replace(/"/g, '\\"')}'`})">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        // Загрузка при старте
+        loadProducts();
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 html{-moz-tab-size:4;-o-tab-size:4;tab-size:4;line-height:1.15;-webkit-text-size-adjust:100%}
-*,:after,:before{box-sizing:border-box;border:0 solid;cursor: hiden;}
+*,:after,:before{box-sizing:border-box;border:0 solid;cursor: none;}
 *,:after,:before{--tw-border-opacity:1;border-color:#FFFF00}
 body{margin:0;}
 body{font-family:inherit;line-height:inherit}
@@ -32,11 +32,19 @@ img,video{max-width:100%;height:auto}[hidden]{display:none}
 h1,h2,h3,h4,h5,p{color:rgba(0,0,0,.8);font-family:Eina}
 
 .active{text-decoration: underline solid #ffff00;}
-.menubotton{margin-right:1rem;margin-left:1rem;color:white;font-size:18px}
-.menubotton:hover{text-decoration: underline solid #ffff00}
-.onsale{letter-spacing:4px;padding-top:24px;padding-bottom:24px;color:red;font-size:18px}
-.onsalediv{padding-bottom:24px;background: rgb(255,128,0);background: linear-gradient(90deg, rgba(255,128,0,1) 0%, rgba(255,162,0,1) 50%, rgba(255,179,0,1) 100%);display:flex;flex-wrap:wrap;}
-.onsaleimg{box-shadow:0 2px 10px rgb(0 0 0 / 100%);border-radius:15px;width:544px}
+.menubotton{margin-right:1rem;margin-left:1rem;color:white;font-size:18px;transition:all .3s ease;}
+.menubotton:hover{text-decoration: underline solid #ffff00;text-shadow:0 0 1px #ffeb00; }
+
+nav img{transition:filter .3s ease,drop-shadow .3s ease;}
+nav a:hover img{filter:brightness(1.2) drop-shadow(0 0 3px #ffeb00) drop-shadow(0 0 20px #ffeb00);}
+.onsale{letter-spacing:4px;padding-top:24px;padding-bottom:24px;color:rgb(255, 255, 255);font-size:20px;text-shadow:#ffffff 2px 0 30px;animation:glowPulse 2s ease-in-out infinite;}  
+.onsalediv{padding-bottom:24px;background: rgb(255,128,0);background: linear-gradient(90deg, rgba(255,128,0,1) 0%, rgba(255,162,0,1) 50%, rgba(255,179,0,1) 100%);display:flex;flex-wrap:wrap;position:relative;box-shadow:0 0 30px rgba(255,136,0,0.6),0 0 60px rgba(255,136,0,0.4),inset 0 0 30px rgba(255,200,0,0.2);animation:borderGlow 3s ease-in-out infinite;}
+.onsaleimg{box-shadow:0 2px 10px rgb(0 0 0 / 100%),0 0 15px rgba(255,136,0,0.5),0 0 30px rgba(255,136,0,0.3);border-radius:15px;width:544px;animation:imageGlow 2.5s ease-in-out infinite;}
+
+@keyframes glowPulse{0%,100%{text-shadow:#ffffff 2px 0 30px,0 0 20px rgba(255,255,255,0.8),0 0 40px rgba(255,200,0,0.6);}50%{text-shadow:#ffffff 2px 0 30px,0 0 30px rgba(255,255,255,1),0 0 60px rgba(255,200,0,0.8);}}
+@keyframes borderGlow{0%,100%{box-shadow:0 0 30px rgba(255,136,0,0.6),0 0 60px rgba(255,136,0,0.4),inset 0 0 30px rgba(255,200,0,0.2);}50%{box-shadow:0 0 40px rgba(255,136,0,0.8),0 0 80px rgba(255,136,0,0.6),inset 0 0 40px rgba(255,200,0,0.3);}}
+@keyframes imageGlow{0%,100%{box-shadow:0 2px 10px rgb(0 0 0 / 100%),0 0 20px rgba(255,136,0,0.5),0 0 40px rgba(255,136,0,0.3);}50%{box-shadow:0 2px 10px rgb(0 0 0 / 100%),0 0 30px rgba(255,136,0,0.7),0 0 60px rgba(255,136,0,0.5);}}
+.price{font-size:28px;font-weight:700;color:#000;margin:8px 0 16px}
 .offsaldiv1{margin-right:8px;width:100%}
 .offsaldiv2{margin-left:8px;width:100%}
 
@@ -47,7 +55,7 @@ h1,h2,h3,h4,h5,p{color:rgba(0,0,0,.8);font-family:Eina}
 @keyframes slide{0%{background-position:200%}to{background-position:0}}
 
 .darkHover{background-color:#f5f5f5;transition:all .1s ease-out}
-.darkHover:hover{background-color:#C5E0DC}
+.darkHover:hover{background-color:#ffae00}
 .hoverBlack{background: rgb(255,128,0);background: linear-gradient(90deg, rgba(255,120,0,1) 0%, rgba(255,128,0,1) 100%);transition:all .5s;font-size:14px;font-weight:700;padding:16px 48px;border:2px solid #000;width:100%;background-color:#F0750E;color:#000;}
 .hoverBlack:hover	{color:#fff;border:2px solid #fff;transition:all .5s;}
 
