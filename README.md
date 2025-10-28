@@ -1,4 +1,6 @@
 # STALKER_SHOP
+<img width="1899" height="1014" alt="изображение" src="https://github.com/user-attachments/assets/8d3da920-cd83-4905-9f04-d82decee4a4d" />
+
 STALKERS SHOP has been the #1 shop on 6g6s.org Buy the highest quality kits and items on 6g6s.org for the cheapest prices!
 
 ## Backend API (Python)
